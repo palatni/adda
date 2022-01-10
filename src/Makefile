@@ -371,7 +371,7 @@ ifeq ($(COMPILER),gnu)
   # Use gfortran if available (GCC 4 and later), otherwise try g77
   ifeq ($(shell which gfortran > /dev/null 2>&1 && echo 0),0)
     CF    := gfortran
-    FLIBS += -lgfortran
+    FLIBS += -lgfortran -lquadmath # TODO check if -lquadmath is required in other cases.
   else
     # This is not expected to work for f90 sources but we keep it for now
     CF    := g77

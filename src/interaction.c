@@ -67,8 +67,8 @@ static const double tmax = 0.97; //upper limit of the interpolation region along
 static const double thetamin = 0.0; //lower limit of the interpolation region along theta-axis
 static const double thetamax = PI_OVER_TWO; //upper limit of the interpolation region along theta-axis
 static const int deg = 4; //interpolation polynomial degree (deg = 4 - cubic interpolation)
-static const double ht = (tmax - tmin) / (Nt - 1);
-static const double hth = (thetamax - thetamin) / (Nth - 1);
+#define ht ((tmax - tmin) / (Nt - 1))
+#define hth ((thetamax - thetamin) / (Nth - 1))
 
 #ifdef USE_SSE3
 static __m128d c1, c2, c3, zo, inv_2pi, p360, prad_to_deg;
