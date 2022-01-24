@@ -67,8 +67,8 @@ static const double tmax = 0.97; //upper limit of the interpolation region along
 static const double thetamin = 0.0; //lower limit of the interpolation region along theta-axis
 static const double thetamax = PI_OVER_TWO; //upper limit of the interpolation region along theta-axis
 static const int deg = 4; //interpolation polynomial degree (deg = 4 - cubic interpolation)
-#define ht ((tmax - tmin) / (Nt - 1))
-#define hth ((thetamax - thetamin) / (Nth - 1))
+static double ht;
+static double hth;
 
 #ifdef USE_SSE3
 static __m128d c1, c2, c3, zo, inv_2pi, p360, prad_to_deg;
@@ -1208,6 +1208,14 @@ static inline void SingleSomIntegral(double rho,const double z,doublecomplex val
 
 //=====================================================================================================================
 
+static inline void init_interpolation_parameters()
+{
+    ht = (tmax - tmin) / (Nt - 1);
+    hth = (thetamax - thetamin) / (Nth - 1);
+}
+
+//=====================================================================================================================
+
 static void FillZero(complex double eps){
 	int j;
 	complex double g = (eps - 1) / (eps + 1);
@@ -1738,6 +1746,7 @@ void InitInteraction(void)
 			case GR_SOM:
 				SET_FUNC_POINTERS(ReflTerm,som);
 				if (!prognosis) som_init(msub*msub);
+                init_interpolation_parameters();
 				CalcSomTable();
 				break;
 			/* TO ADD NEW REFLECTION FORMULATION
